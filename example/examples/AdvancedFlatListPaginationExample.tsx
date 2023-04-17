@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { Button, ListItem } from '../src/components';
 import { useList } from 'react-native-use-list';
+import { Alignments } from '../../src/types';
 
 const DATA = [
   {
@@ -73,10 +74,16 @@ export const AdvancedFlatListPaginationExample = () => {
         <Button text="<" onPress={prevPage} />
         <Button
           text="Random"
-          onPress={() => goToPage(Math.floor(Math.random() * DATA.length))}
+          onPress={() =>
+            goToPage({
+              index: Math.floor(Math.random() * DATA.length),
+              animated: true,
+              align: Alignments.CENTER,
+            })
+          }
         />
         <Text style={styles.footerIndex}>{pageIndex}</Text>
-        <Button text=">" onPress={nextPage} />
+        <Button text=">" onPress={() => nextPage({ align: Alignments.END })} />
       </View>
     </>
   );

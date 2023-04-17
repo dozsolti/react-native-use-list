@@ -1,35 +1,51 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import { useCallback, useRef, useState } from 'react';
-import type { List, Options } from './types';
+import type {
+  List,
+  Options,
+  ScrollToIndexOptions,
+  ScrollToPageOptions,
+} from './types';
 import { isSectionList, isVirtualizedList } from './utils';
 import type { SectionList } from 'react-native';
 import type { VirtualizedList } from 'react-native';
 import type { ViewToken } from 'react-native';
 import type { ViewabilityConfig } from 'react-native';
 
+function getDataCountFromRef(listRef: List): number {
+  if (!listRef.current) return 0;
+
+  if (isVirtualizedList(listRef))
+    return (
+      (listRef.current as VirtualizedList<any>).props.getItemCount?.(null) || 0
+    );
+
+  if (isSectionList(listRef))
+    return (listRef.current as SectionList).props.sections.reduce(
+      (count, item) => count + item.data.length,
+      0
+    );
+
+  return listRef.current.props.data?.length || 0;
+}
 export function usePagination(listRef: List, options: Options) {
   const [pageIndex, setPageIndex] = useState(0);
   const [sectionItemIndex, setSectionItemIndex] = useState(0);
   const [sectionIndex, setSectionIndex] = useState(0);
 
-  const scrollToIndex = (index: number) => {
+  function scrollToIndex(index: number): void;
+  function scrollToIndex(options: ScrollToIndexOptions): void;
+
+  function scrollToIndex(params: number | ScrollToIndexOptions) {
     if (!listRef?.current) return;
 
-    let dataCount = 0;
-    if (isVirtualizedList(listRef)) {
-      dataCount =
-        (listRef.current as VirtualizedList<any>).props.getItemCount?.(null) ||
-        0;
-    } else if (isSectionList(listRef)) {
-      dataCount = (listRef.current as SectionList).props.sections.reduce(
-        (count, item) => count + item.data.length,
-        0
-      );
-    } else {
-      dataCount = listRef.current.props.data?.length || 0;
-    }
-
+    const dataCount = getDataCountFromRef(listRef);
     if (options.debugMode && dataCount === 0)
       return console.warn('Pagination does not work on empty lists.');
+
+    let index: number;
+    if (typeof params === 'number') index = params;
+    else index = params.index;
 
     if (index < 0 || index >= dataCount) {
       if (options.loopPages) {
@@ -45,7 +61,13 @@ export function usePagination(listRef: List, options: Options) {
 
     if ('scrollToIndex' in listRef.current) {
       setPageIndex(index);
-      listRef.current.scrollToIndex({ index });
+      if (typeof params === 'number') listRef.current.scrollToIndex({ index });
+      else
+        listRef.current.scrollToIndex({
+          index,
+          animated: params.animated,
+          viewPosition: params.align,
+        });
       return;
     }
 
@@ -77,26 +99,42 @@ export function usePagination(listRef: List, options: Options) {
       setSectionIndex(sectionIndex);
       return;
     }
-  };
+  }
 
-  const nextPage = () => {
-    scrollToIndex(pageIndex + 1);
-  };
-  const prevPage = () => {
-    scrollToIndex(pageIndex - 1);
-  };
+  function nextPage(): void;
+  function nextPage(options: ScrollToPageOptions): void;
+
+  function nextPage(options?: ScrollToPageOptions) {
+    scrollToIndex({
+      index: pageIndex + 1,
+      ...options,
+    });
+  }
+
+  function prevPage(): void;
+  function prevPage(options: ScrollToPageOptions): void;
+
+  function prevPage(options?: ScrollToPageOptions) {
+    scrollToIndex({
+      index: pageIndex - 1,
+      ...options,
+    });
+  }
 
   const viewabilityConfig = useRef<ViewabilityConfig>({
     itemVisiblePercentThreshold: 50,
     waitForInteraction: true,
   }).current;
 
-  const isSectionSelected = (section: any): boolean => {
-    if (!listRef?.current) return false;
-    if (!('sections' in listRef.current.props)) return false;
+  const isSectionSelected = useCallback(
+    (section: any): boolean => {
+      if (!listRef?.current) return false;
+      if (!('sections' in listRef.current.props)) return false;
 
-    return listRef.current.props.sections.indexOf(section) === sectionIndex;
-  };
+      return listRef.current.props.sections.indexOf(section) === sectionIndex;
+    },
+    [listRef, sectionIndex]
+  );
 
   const onViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
