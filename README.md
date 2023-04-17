@@ -8,6 +8,15 @@ PackageDescription
 npm install react-native-use-list
 ```
 
+## Supported components
+- FlatList
+- VirtualizedList
+- SectionList
+- ScrollView (coming soon)
+
+## Features
+- Pagination
+- Pull to Refresh
 ## Usage
 
 ```js

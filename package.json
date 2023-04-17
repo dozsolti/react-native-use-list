@@ -27,6 +27,7 @@
     "!**/.*"
   ],
   "scripts": {
+    "start": "cd example && yarn start",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
