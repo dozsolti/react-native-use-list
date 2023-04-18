@@ -172,6 +172,9 @@ export function usePagination(
     onViewableItemsChanged,
   }).current;
 
+  if ((listRef.current?.props as any)?.numColumns > 1) {
+    console.warn('Pagination does not work for multiple columns');
+  }
   return {
     pageIndex,
     sectionItemIndex,

@@ -27,7 +27,7 @@ export default ListItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 200,
+    minHeight: 200,
     justifyContent: 'center',
     alignItems: 'center',
 
