@@ -28,7 +28,10 @@ function getDataCountFromRef(listRef: List): number {
 
   return listRef.current.props.data?.length || 0;
 }
-export function usePagination(listRef: List, options: Options) {
+export function usePagination(
+  listRef: List,
+  { debugMode, loopPages }: Options
+) {
   const [pageIndex, setPageIndex] = useState(0);
   const [sectionItemIndex, setSectionItemIndex] = useState(0);
   const [sectionIndex, setSectionIndex] = useState(0);
@@ -40,7 +43,7 @@ export function usePagination(listRef: List, options: Options) {
     if (!listRef?.current) return;
 
     const dataCount = getDataCountFromRef(listRef);
-    if (options.debugMode && dataCount === 0)
+    if (debugMode && dataCount === 0)
       return console.warn('Pagination does not work on empty lists.');
 
     let index: number;
@@ -48,10 +51,10 @@ export function usePagination(listRef: List, options: Options) {
     else index = params.index;
 
     if (index < 0 || index >= dataCount) {
-      if (options.loopPages) {
+      if (loopPages) {
         index = (index + dataCount) % dataCount; // loop around
       } else {
-        if (options.debugMode)
+        if (debugMode)
           console.warn(
             `Page: ${index} is outside bounderies of 0 - ${dataCount}.`
           );

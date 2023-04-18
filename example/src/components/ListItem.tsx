@@ -4,7 +4,7 @@ import { Dimensions, StyleSheet, Text, View, ViewStyle } from 'react-native';
 const { width } = Dimensions.get('screen');
 type Props = {
   text: string | number;
-  isFocused: boolean;
+  isFocused?: boolean;
   style?: ViewStyle;
 };
 

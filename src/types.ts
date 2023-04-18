@@ -7,8 +7,16 @@ export type List =
   | RefObject<SectionList>;
 
 export type Options = {
-  loopPages?: boolean;
   debugMode?: boolean;
+} & PaginationOptions &
+  PullToRefreshOptions;
+
+export type PaginationOptions = {
+  loopPages?: boolean;
+};
+
+export type PullToRefreshOptions = {
+  onRefresh?: () => Promise<any>;
 };
 
 export enum Alignments {
