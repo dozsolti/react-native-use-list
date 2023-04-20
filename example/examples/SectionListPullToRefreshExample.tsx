@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { SectionList, StyleSheet, Text } from 'react-native';
 import { ListItem } from '../src/components';
 import { useList } from 'react-native-use-list';
@@ -25,8 +25,6 @@ const DATA = [
 export const SectionListPullToRefreshExample = () => {
   const [data, setData] = useState(DATA.slice(0, 2));
 
-  const listRef = useRef(null);
-
   const updateData = () => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -36,7 +34,7 @@ export const SectionListPullToRefreshExample = () => {
     });
   };
 
-  const { isRefreshing, refreshController } = useList(listRef, {
+  const { isRefreshing, refreshController } = useList({
     onRefresh: updateData,
   });
 
@@ -46,7 +44,6 @@ export const SectionListPullToRefreshExample = () => {
         style={styles.title}
       >{`isRefreshing: ${isRefreshing} - Length: ${data.length}`}</Text>
       <SectionList
-        ref={listRef}
         sections={data}
         keyExtractor={(item, index) => item + index}
         renderItem={({ item }) => <ListItem text={item} />}

@@ -48,20 +48,18 @@ const DATA = [
 ];
 
 export const AdvancedFlatListPaginationExample = () => {
-  const listRef = useRef<FlatList>(null);
+  const ref = useRef<FlatList>(null);
 
-  const { pageIndex, goToPage, nextPage, prevPage, indexController } = useList(
-    listRef,
-    {
-      loopPages: true,
-      debugMode: true,
-    }
-  );
+  const { pageIndex, goToPage, nextPage, prevPage, indexController } = useList({
+    ref,
+    loopPages: true,
+    debugMode: true,
+  });
 
   return (
     <>
       <FlatList
-        ref={listRef}
+        ref={ref}
         data={DATA}
         // horizontal
         renderItem={({ item, index }) => (

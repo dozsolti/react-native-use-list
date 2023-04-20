@@ -47,14 +47,14 @@ const DATA = [
 ];
 
 export const FlatListPaginationExample = () => {
-  const listRef = useRef<FlatList>(null);
+  const ref = useRef<FlatList>(null);
 
-  const { pageIndex, nextPage, prevPage, indexController } = useList(listRef);
+  const { pageIndex, nextPage, prevPage, indexController } = useList({ ref });
 
   return (
     <>
       <FlatList
-        ref={listRef}
+        ref={ref}
         data={DATA}
         // horizontal
         renderItem={({ index }) => (

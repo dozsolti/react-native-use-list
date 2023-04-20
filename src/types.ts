@@ -1,7 +1,7 @@
 import type { RefObject } from 'react';
 import type { FlatList, SectionList, VirtualizedList } from 'react-native';
 
-export type List =
+export type ListReference =
   | RefObject<FlatList>
   | RefObject<VirtualizedList<any>>
   | RefObject<SectionList>;
@@ -12,6 +12,7 @@ export type Options = {
   PullToRefreshOptions;
 
 export type PaginationOptions = {
+  ref?: ListReference;
   loopPages?: boolean;
 };
 

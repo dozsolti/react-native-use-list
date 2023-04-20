@@ -1,7 +1,7 @@
-import { ListItem } from 'example/src/components';
-import { generateRandomColor } from 'example/src/utils/colors';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text } from 'react-native';
+import { ListItem } from '../../example/src/components';
+import { generateRandomColor } from '../../example/src/utils/colors';
 import { useList } from 'react-native-use-list';
 
 const list1 = generateRandomColor(5);
@@ -9,8 +9,6 @@ const list2 = generateRandomColor(10);
 
 export const FlatListPullToRefreshExample = () => {
   const [data, setData] = useState(list1);
-
-  const listRef = useRef(null);
 
   const updateData = () => {
     return new Promise((resolve) => {
@@ -21,7 +19,7 @@ export const FlatListPullToRefreshExample = () => {
     });
   };
 
-  const { isRefreshing, refreshController } = useList(listRef, {
+  const { isRefreshing, refreshController } = useList({
     onRefresh: updateData,
   });
 
@@ -31,7 +29,6 @@ export const FlatListPullToRefreshExample = () => {
         style={styles.title}
       >{`isRefreshing: ${isRefreshing} - Length: ${data.length}`}</Text>
       <FlatList
-        ref={listRef}
         data={data}
         renderItem={({ item: color }) => (
           <ListItem text={color} style={{ backgroundColor: color }} />

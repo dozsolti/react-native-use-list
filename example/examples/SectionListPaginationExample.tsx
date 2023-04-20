@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { SectionList, StyleSheet, Text } from 'react-native';
 import { ListItem } from '../src/components';
 import { useList } from 'react-native-use-list';
-import PaginationFooter from 'example/src/components/PaginationFooter';
+import PaginationFooter from '../../example/src/components/PaginationFooter';
 
 const DATA = [
   {
@@ -24,7 +24,7 @@ const DATA = [
 ];
 
 export const SectionListPaginationExample = () => {
-  const listRef = useRef<SectionList>(null);
+  const ref = useRef<SectionList>(null);
 
   const {
     pageIndex,
@@ -35,7 +35,8 @@ export const SectionListPaginationExample = () => {
     nextPage,
     prevPage,
     indexController,
-  } = useList(listRef, {
+  } = useList({
+    ref,
     loopPages: true,
     debugMode: true,
   });
@@ -43,8 +44,7 @@ export const SectionListPaginationExample = () => {
   return (
     <>
       <SectionList
-        ref={listRef}
-        horizontal
+        ref={ref}
         sections={DATA}
         keyExtractor={(item, index) => item + index}
         renderItem={({ item, index, section }) => (

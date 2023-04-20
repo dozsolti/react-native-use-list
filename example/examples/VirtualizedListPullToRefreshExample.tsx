@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { VirtualizedList, StyleSheet, Text } from 'react-native';
 import { ListItem } from '../src/components';
 import { generateRandomColor } from '../src/utils/colors';
@@ -14,8 +14,6 @@ export const VirtualizedListPullToRefreshExample = () => {
 
   const getItemCount = () => data.length;
 
-  const listRef = useRef(null);
-
   const updateData = () => {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -25,7 +23,7 @@ export const VirtualizedListPullToRefreshExample = () => {
     });
   };
 
-  const { isRefreshing, refreshController } = useList(listRef, {
+  const { isRefreshing, refreshController } = useList({
     onRefresh: updateData,
   });
 
@@ -35,7 +33,6 @@ export const VirtualizedListPullToRefreshExample = () => {
         style={styles.title}
       >{`isRefreshing: ${isRefreshing} - Length: ${data.length}`}</Text>
       <VirtualizedList
-        ref={listRef}
         initialNumToRender={4}
         renderItem={({ index }) => <ListItem text={index} />}
         keyExtractor={(item: string) => item}

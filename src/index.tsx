@@ -1,9 +1,10 @@
-import type { List, Options } from './types';
+import type { Options } from './types';
 import { usePagination } from './usePagination';
 import { usePullToRefresh } from './usePullToRefresh';
 
-export function useList(listRef: List, options: Options = {}) {
+export function useList(options: Options = {}) {
   const defaultOptions = {
+    ref: null,
     loopPages: false,
     debugMode: false,
     onRefresh: undefined,
@@ -11,7 +12,7 @@ export function useList(listRef: List, options: Options = {}) {
 
   options = Object.assign({ ...defaultOptions }, options);
 
-  const pagination = usePagination(listRef, options);
+  const pagination = usePagination(options);
   const pullToRefresh = usePullToRefresh(options);
 
   return { ...pagination, ...pullToRefresh };
