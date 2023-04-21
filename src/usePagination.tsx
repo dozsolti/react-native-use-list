@@ -12,6 +12,8 @@ import type { VirtualizedList } from 'react-native';
 import type { ViewToken } from 'react-native';
 import type { ViewabilityConfig } from 'react-native';
 
+const SCROLL_DURATION = 1000 * 0.8;
+
 function getDataCountFromRef(ref: ListReference): number {
   if (!ref.current) return 0;
 
@@ -32,6 +34,9 @@ export function usePagination({ ref, debugMode, loopPages }: Options) {
   const [pageIndex, setPageIndex] = useState(0);
   const [sectionItemIndex, setSectionItemIndex] = useState(0);
   const [sectionIndex, setSectionIndex] = useState(0);
+
+  const isScrollFromPaging = useRef(false);
+  const scrollFromPagingTimeout = useRef<any>();
 
   function scrollToIndex(index: number): void;
   function scrollToIndex(options: ScrollToIndexOptions): void;
@@ -62,6 +67,8 @@ export function usePagination({ ref, debugMode, loopPages }: Options) {
       }
     }
 
+    isScrollFromPaging.current = true;
+
     if ('scrollToIndex' in ref.current) {
       setPageIndex(index);
       if (typeof params === 'number') ref.current.scrollToIndex({ index });
@@ -71,10 +78,7 @@ export function usePagination({ ref, debugMode, loopPages }: Options) {
           animated: params.animated,
           viewPosition: params.align,
         });
-      return;
-    }
-
-    if ('scrollToLocation' in ref.current) {
+    } else if ('scrollToLocation' in ref.current) {
       setPageIndex(index);
 
       let _index = index;
@@ -100,8 +104,11 @@ export function usePagination({ ref, debugMode, loopPages }: Options) {
 
       setSectionItemIndex(itemIndex);
       setSectionIndex(sectionIndex);
-      return;
     }
+    if (scrollFromPagingTimeout.current) clearTimeout(scrollFromPagingTimeout.current);
+    scrollFromPagingTimeout.current = setTimeout(() => {
+      isScrollFromPaging.current = false;
+    }, SCROLL_DURATION);
   }
 
   function nextPage(): void;
@@ -140,11 +147,17 @@ export function usePagination({ ref, debugMode, loopPages }: Options) {
   }).current;
 
   const onViewableItemsChanged = useCallback(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+    ({
+      viewableItems,
+    }: {
+      changed: ViewToken[];
+      viewableItems: ViewToken[];
+    }) => {
       const item = viewableItems[0];
       if (!item || item.index === null) return;
 
-      const isScrolledByHand = true; // TODO: find a value for "if the user draging to scroll and haven't released it yet"
+      if (isScrollFromPaging.current) return;
+
       if (
         'section' in item &&
         ref?.current &&
@@ -160,9 +173,7 @@ export function usePagination({ ref, debugMode, loopPages }: Options) {
 
         setPageIndex(count + item.index);
       } else {
-        if (isScrolledByHand) {
-          setPageIndex(item.index);
-        }
+        setPageIndex(item.index);
       }
     },
     [ref]

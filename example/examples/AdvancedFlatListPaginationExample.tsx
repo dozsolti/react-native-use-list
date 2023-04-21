@@ -69,9 +69,9 @@ export const AdvancedFlatListPaginationExample = () => {
         style={styles.list}
       />
       <View style={styles.footer}>
-        <Button text="<" onPress={prevPage} />
+        <Button text="< (TOP)" onPress={prevPage} />
         <Button
-          text="Random"
+          text="Random (CENTER)"
           onPress={() =>
             goToPage({
               index: Math.floor(Math.random() * DATA.length),
@@ -81,7 +81,10 @@ export const AdvancedFlatListPaginationExample = () => {
           }
         />
         <Text style={styles.footerIndex}>{pageIndex}</Text>
-        <Button text=">" onPress={() => nextPage({ align: Alignments.END })} />
+        <Button
+          text="> (END)"
+          onPress={() => nextPage({ align: Alignments.END })}
+        />
       </View>
     </>
   );
