@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { Button, ListItem } from '../src/components';
+import { Button, ListItem } from '../../src/components';
 import { useList } from 'react-native-use-list';
 
 const DATA = [

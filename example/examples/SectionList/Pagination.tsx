@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { SectionList, StyleSheet, Text } from 'react-native';
-import { ListItem } from '../src/components';
+import { ListItem } from '../../src/components';
 import { useList } from 'react-native-use-list';
-import PaginationFooter from '../../example/src/components/PaginationFooter';
+import PaginationFooter from '../../../example/src/components/PaginationFooter';
 
 const DATA = [
   {

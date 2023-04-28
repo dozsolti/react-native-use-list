@@ -1,6 +1,6 @@
 import React from 'react';
-import { VirtualizedListPaginationExample } from '../../examples/VirtualizedListPaginationExample';
-import { VirtualizedListPullToRefreshExample } from '../../examples/VirtualizedListPullToRefreshExample';
+import { VirtualizedListPaginationExample } from '../../examples/VirtualizedList/Pagination';
+import { VirtualizedListPullToRefreshExample } from '../../examples/VirtualizedList/PullToRefresh';
 
 const VirtualizedListMeta = {
   title: 'VirtualizedList',

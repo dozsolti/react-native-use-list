@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text } from 'react-native';
-import { ListItem } from '../../example/src/components';
-import { generateRandomColor } from '../../example/src/utils/colors';
+import { ListItem } from '../../../example/src/components';
+import { generateRandomColor } from '../../../example/src/utils/colors';
 import { useList } from 'react-native-use-list';
 
 const list1 = generateRandomColor(5);

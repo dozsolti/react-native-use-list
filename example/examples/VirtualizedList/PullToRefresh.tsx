@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { VirtualizedList, StyleSheet, Text } from 'react-native';
-import { ListItem } from '../src/components';
-import { generateRandomColor } from '../src/utils/colors';
+import { ListItem } from '../../src/components';
+import { generateRandomColor } from '../../src/utils/colors';
 import { useList } from 'react-native-use-list';
 
 const list1 = generateRandomColor(5);

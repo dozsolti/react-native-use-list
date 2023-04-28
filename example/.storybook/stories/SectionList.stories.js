@@ -1,6 +1,6 @@
 import React from 'react';
-import { SectionListPaginationExample } from '../../examples/SectionListPaginationExample';
-import { SectionListPullToRefreshExample } from '../../examples/SectionListPullToRefreshExample';
+import { SectionListPaginationExample } from '../../examples/SectionList/Pagination';
+import { SectionListPullToRefreshExample } from '../../examples/SectionList/PullToRefresh';
 
 const SectionListMeta = {
   title: 'SectionList',

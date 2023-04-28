@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SectionList, StyleSheet, Text } from 'react-native';
-import { ListItem } from '../src/components';
+import { ListItem } from '../../src/components';
 import { useList } from 'react-native-use-list';
 
 const DATA = [

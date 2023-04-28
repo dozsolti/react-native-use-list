@@ -1,6 +1,6 @@
-import { FlatListPaginationExample } from '../../examples/FlatListPaginationExample';
-import { AdvancedFlatListPaginationExample } from '../../examples/AdvancedFlatListPaginationExample';
-import { FlatListPullToRefreshExample } from '../../examples/FlatListPullToRefreshExample';
+import { FlatListPaginationExample } from '../../examples/FlatList/Pagination';
+import { AdvancedFlatListPaginationExample } from '../../examples/FlatList/AdvancedPagination';
+import { FlatListPullToRefreshExample } from '../../examples/FlatList/PullToRefresh';
 
 const FlatListMeta = {
   title: 'FlatList',
