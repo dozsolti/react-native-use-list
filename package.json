@@ -1,7 +1,7 @@
 {
   "name": "react-native-use-list",
-  "version": "0.1.0",
-  "description": "test",
+  "version": "0.2.0",
+  "description": "React Native library to enhance the functionalities of basic lists.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
